@@ -2,19 +2,50 @@
 //
 
 #include <iostream>
+#include <vector>
+#include <Windows.h>
+#include "proc.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    //Get ProcId of the target process
+    DWORD procId = GetProcId(L"ac_client.exe");
+
+    //GetModuleBaseAddress
+    uintptr_t moduleBase = GetModuleBaseAddress(procId, L"ac_client.exe");
+
+    //Get Handle to process
+    HANDLE hProc = 0;
+    hProc = OpenProcess(PROCESS_ALL_ACCESS, NULL, procId);
+
+    //Resolve base address of the pointer chain
+    uintptr_t dynamicPtrBaseAddr = moduleBase + 0x10f4f4;
+
+    std::cout << "Dynamic pointer BaseAdddress = " << "0x" << std::hex << dynamicPtrBaseAddr << std::endl;
+
+    //Resolve ammo pointer chain
+    std::vector<unsigned int> ammoOffsets = { 0x374, 0x14, 0x0 };
+    uintptr_t ammoAddr = FindDMAAddy(hProc, dynamicPtrBaseAddr, ammoOffsets);
+
+    std::cout << "Dynamic pointer AmmoAddress = " << "0x" << std::hex << ammoAddr << std::endl;
+
+    //Read Ammo Value
+    int ammoValue = 0;
+
+    ReadProcessMemory(hProc, (BYTE*)ammoAddr, &ammoValue, sizeof(ammoValue), nullptr);
+    std::cout << "Current Ammo = " << std::dec << ammoValue << std::endl;
+
+    //Write Ammo Value
+    int newAmmo = 1337;
+
+    WriteProcessMemory(hProc, (BYTE*)ammoAddr, &newAmmo, sizeof(newAmmo), nullptr);
+
+    //Read out again
+
+    ReadProcessMemory(hProc, (BYTE*)ammoAddr, &ammoValue, sizeof(ammoValue), nullptr);
+
+    std::cout << "New ammo = " << std::dec << ammoValue << std::endl;
+
+    getchar();
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
