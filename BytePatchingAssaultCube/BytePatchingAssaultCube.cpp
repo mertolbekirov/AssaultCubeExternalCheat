@@ -1,20 +1,35 @@
-// BytePatchingAssaultCube.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <Windows.h>
+#include <vector>
+#include "proc.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    HANDLE hProcess = 0;
+
+    uintptr_t moduleBase = 0, localPlayerPtr = 0, healthAddr = 0;
+    bool bHealth = false, bAmmo = false, bRecoil = false;
+
+    const int newValue = 1999;
+
+    DWORD procId = GetProcId(L"ac_client.exe");
+
+    if (procId) {
+        hProcess = OpenProcess(PROCESS_ALL_ACCESS, NULL, procId);
+
+        moduleBase = GetModuleBaseAddress(procId, L"ac_client.exe");
+
+        localPlayerPtr = moduleBase + 0x10f4f4;
+
+        healthAddr = FindDMAAddy(hProcess, localPlayerPtr, { 0xf8 });
+    }
+    else
+    {
+        std::cout << "Process not found, press enter to exit \n";
+        getchar();
+        return 0;
+    }
+
+    DWORD dwExit = 0;
+
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
