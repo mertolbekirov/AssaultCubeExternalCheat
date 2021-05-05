@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssaultCubeExternalCheat", "AssaultCubeExternalCheat\AssaultCubeExternalCheat.vcxproj", "{DB5426F9-2669-4EE5-BF2C-3CAB31661E20}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BytePatchingAssaultCube", "BytePatchingAssaultCube\BytePatchingAssaultCube.vcxproj", "{DCB2679B-0C01-40A0-9814-EDF2B67AC012}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{DB5426F9-2669-4EE5-BF2C-3CAB31661E20}.Release|x64.Build.0 = Release|x64
 		{DB5426F9-2669-4EE5-BF2C-3CAB31661E20}.Release|x86.ActiveCfg = Release|Win32
 		{DB5426F9-2669-4EE5-BF2C-3CAB31661E20}.Release|x86.Build.0 = Release|Win32
+		{DCB2679B-0C01-40A0-9814-EDF2B67AC012}.Debug|x64.ActiveCfg = Debug|x64
+		{DCB2679B-0C01-40A0-9814-EDF2B67AC012}.Debug|x64.Build.0 = Debug|x64
+		{DCB2679B-0C01-40A0-9814-EDF2B67AC012}.Debug|x86.ActiveCfg = Debug|Win32
+		{DCB2679B-0C01-40A0-9814-EDF2B67AC012}.Debug|x86.Build.0 = Debug|Win32
+		{DCB2679B-0C01-40A0-9814-EDF2B67AC012}.Release|x64.ActiveCfg = Release|x64
+		{DCB2679B-0C01-40A0-9814-EDF2B67AC012}.Release|x64.Build.0 = Release|x64
+		{DCB2679B-0C01-40A0-9814-EDF2B67AC012}.Release|x86.ActiveCfg = Release|Win32
+		{DCB2679B-0C01-40A0-9814-EDF2B67AC012}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
