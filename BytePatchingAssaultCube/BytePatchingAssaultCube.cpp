@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <vector>
 #include "proc.h"
+#include "mem.h"
 
 int main()
 {
@@ -32,4 +33,27 @@ int main()
 
     DWORD dwExit = 0;
 
+    while (GetExitCodeProcess(hProcess, &dwExit) && dwExit == STILL_ACTIVE)
+    {
+        if (GetAsyncKeyState(VK_NUMPAD1) & 1)
+        {
+            bHealth = !bHealth;
+        }
+
+        if (GetAsyncKeyState(VK_NUMPAD2) & 1)
+        {
+            bAmmo = !bAmmo;
+
+            if (bAmmo)
+            {
+                // ff 06 = inc [esi];
+                mem::PatchEx((BYTE*)(moduleBase + 0x637e9), (BYTE*)"\xFF\x06", 2, hProcess);
+            }
+            else
+            {
+                // ff 0E = dec [esi];
+                mem::PatchEx((BYTE*)(moduleBase + 0x637e9), (BYTE*)"\xFF\x0E", 2, hProcess);
+            }
+        }
+    }
 }
